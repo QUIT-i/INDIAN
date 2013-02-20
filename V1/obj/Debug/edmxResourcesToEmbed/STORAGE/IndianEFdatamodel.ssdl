@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="INDIANSTORAGEModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="INDIANSTORAGEModelStoreContainer">
+    <EntitySet Name="Attachments" EntityType="INDIANSTORAGEModel.Store.Attachments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="INDIANSTORAGEModel.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Issues" EntityType="INDIANSTORAGEModel.Store.Issues" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IssuesCountPerDays" EntityType="INDIANSTORAGEModel.Store.IssuesCountPerDays" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Place_Pin" EntityType="INDIANSTORAGEModel.Store.Place_Pin" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_IssueAttachments" Association="INDIANSTORAGEModel.Store.FK_IssueAttachments">
+      <End Role="Issues" EntitySet="Issues" />
+      <End Role="Attachments" EntitySet="Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IssueComment" Association="INDIANSTORAGEModel.Store.FK_IssueComment">
+      <End Role="Issues" EntitySet="Issues" />
+      <End Role="Comments" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pin_Issue" Association="INDIANSTORAGEModel.Store.FK_Pin_Issue">
+      <End Role="Place_Pin" EntitySet="Place_Pin" />
+      <End Role="Issues" EntitySet="Issues" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Attachments">
+    <Key>
+      <PropertyRef Name="Attachment_Id" />
+    </Key>
+    <Property Name="Attachment_Id" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Filename" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="nvarchar" Nullable="false" MaxLength="12" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="Issues">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="Subject" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="400" />
+    <Property Name="IssueVisibility" Type="bit" />
+    <Property Name="CreatorVisibility" Type="bit" />
+    <Property Name="Category_ID" Type="tinyint" />
+    <Property Name="CreatorID" Type="nvarchar" MaxLength="30" />
+    <Property Name="Comment_ID" Type="nvarchar" MaxLength="12" />
+    <Property Name="Creation_date" Type="datetime" Nullable="false" />
+    <Property Name="PIN" Type="nvarchar" MaxLength="8" />
+  </EntityType>
+  <EntityType Name="IssuesCountPerDays">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Count" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Place_Pin">
+    <Key>
+      <PropertyRef Name="PIN" />
+    </Key>
+    <Property Name="PIN" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="Place_Name" Type="nvarchar" Nullable="false" MaxLength="36" />
+    <Property Name="District" Type="nvarchar" MaxLength="36" />
+    <Property Name="State" Type="nvarchar" MaxLength="36" />
+  </EntityType>
+  <Association Name="FK_IssueAttachments">
+    <End Role="Issues" Type="INDIANSTORAGEModel.Store.Issues" Multiplicity="1" />
+    <End Role="Attachments" Type="INDIANSTORAGEModel.Store.Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Attachments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IssueComment">
+    <End Role="Issues" Type="INDIANSTORAGEModel.Store.Issues" Multiplicity="1" />
+    <End Role="Comments" Type="INDIANSTORAGEModel.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Comments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pin_Issue">
+    <End Role="Place_Pin" Type="INDIANSTORAGEModel.Store.Place_Pin" Multiplicity="0..1" />
+    <End Role="Issues" Type="INDIANSTORAGEModel.Store.Issues" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Place_Pin">
+        <PropertyRef Name="PIN" />
+      </Principal>
+      <Dependent Role="Issues">
+        <PropertyRef Name="PIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

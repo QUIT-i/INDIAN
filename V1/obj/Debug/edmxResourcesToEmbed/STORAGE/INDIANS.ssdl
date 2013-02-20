@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="INDIANS.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="INDIANSStoreContainer">
+    <EntitySet Name="Issues" EntityType="INDIANS.Store.Issues" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="INDIANS.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IssuesCountPerDays" EntityType="INDIANS.Store.IssuesCountPerDays" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attachments" EntityType="INDIANS.Store.Attachments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Place_Pin" EntityType="INDIANS.Store.Place_Pin" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Place_PinIssue" EntityType="INDIANS.Store.Place_PinIssue" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="IssueComment" Association="INDIANS.Store.IssueComment">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="IssueAttachments" Association="INDIANS.Store.IssueAttachments">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Attachments" EntitySet="Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Place_PinIssue_Place_Pin" Association="INDIANS.Store.FK_Place_PinIssue_Place_Pin">
+      <End Role="Place_Pin" EntitySet="Place_Pin" />
+      <End Role="Place_PinIssue" EntitySet="Place_PinIssue" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Place_PinIssue_Issue" Association="INDIANS.Store.FK_Place_PinIssue_Issue">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Place_PinIssue" EntitySet="Place_PinIssue" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Issues">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Name="IssueId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar" Nullable="false" />
+    <Property Name="Description" Type="ntext" Nullable="false" />
+    <Property Name="IssueVisibility" Type="bit" Nullable="false" DefaultValue="true" />
+    <Property Name="CreatorVisibility" Type="bit" Nullable="false" DefaultValue="true" />
+    <Property Name="Category_ID" Type="nvarchar" Nullable="false" />
+    <Property Name="CreatorID" Type="nvarchar" Nullable="false" />
+    <Property Name="Comment_ID" Type="nvarchar" Nullable="false" />
+    <Property Name="Creation_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="nvarchar" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" />
+    <Property Name="IssueId" Type="nvarchar" Nullable="false" />
+    <Property Name="IssueIssueId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IssuesCountPerDays">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Count" Type="float" Nullable="false" DefaultValue="1" />
+  </EntityType>
+  <EntityType Name="Attachments">
+    <Key>
+      <PropertyRef Name="Attachment_Id" />
+    </Key>
+    <Property Name="Attachment_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Filename" Type="nvarchar" Nullable="false" />
+    <Property Name="IssueIssueId" Type="nvarchar" Nullable="false" />
+    <Property Name="IssueIssueId1" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Place_Pin">
+    <Key>
+      <PropertyRef Name="PIN" />
+    </Key>
+    <Property Name="PIN" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Place_Name" Type="nvarchar" Nullable="false" />
+    <Property Name="District" Type="nvarchar" Nullable="false" />
+    <Property Name="State" Type="nvarchar" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Place_PinIssue">
+    <Key>
+      <PropertyRef Name="Place_Pin_PIN" />
+      <PropertyRef Name="Issues_IssueId" />
+    </Key>
+    <Property Name="Place_Pin_PIN" Type="smallint" Nullable="false" />
+    <Property Name="Issues_IssueId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="IssueComment">
+    <End Role="Issue" Type="INDIANS.Store.Issues" Multiplicity="1" />
+    <End Role="Comment" Type="INDIANS.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="IssueIssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IssueAttachments">
+    <End Role="Issue" Type="INDIANS.Store.Issues" Multiplicity="1" />
+    <End Role="Attachments" Type="INDIANS.Store.Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Attachments">
+        <PropertyRef Name="IssueIssueId1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Place_PinIssue_Place_Pin">
+    <End Role="Place_Pin" Type="INDIANS.Store.Place_Pin" Multiplicity="1" />
+    <End Role="Place_PinIssue" Type="INDIANS.Store.Place_PinIssue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Place_Pin">
+        <PropertyRef Name="PIN" />
+      </Principal>
+      <Dependent Role="Place_PinIssue">
+        <PropertyRef Name="Place_Pin_PIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Place_PinIssue_Issue">
+    <End Role="Place_PinIssue" Type="INDIANS.Store.Place_PinIssue" Multiplicity="*" />
+    <End Role="Issue" Type="INDIANS.Store.Issues" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Place_PinIssue">
+        <PropertyRef Name="Issues_IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

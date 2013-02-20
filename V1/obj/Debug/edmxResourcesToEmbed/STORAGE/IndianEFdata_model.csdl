@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Indian_Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="STORAGEEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_Attachments" EntityType="Indian_Model.tbl_Attachments" />
+    <EntitySet Name="tbl_Comments" EntityType="Indian_Model.tbl_Comments" />
+    <EntitySet Name="tbl_Issues" EntityType="Indian_Model.tbl_Issues" />
+    <EntitySet Name="tbl_IssuesCountPerDays" EntityType="Indian_Model.tbl_IssuesCountPerDays" />
+    <EntitySet Name="tbl_Place_Pin" EntityType="Indian_Model.tbl_Place_Pin" />
+    <EntitySet Name="UserProfiles" EntityType="Indian_Model.UserProfile" />
+    <EntitySet Name="webpages_Membership" EntityType="Indian_Model.webpages_Membership" />
+    <EntitySet Name="webpages_OAuthMembership" EntityType="Indian_Model.webpages_OAuthMembership" />
+    <EntitySet Name="webpages_Roles" EntityType="Indian_Model.webpages_Roles" />
+    <AssociationSet Name="FK_IssueAttachments" Association="Indian_Model.FK_IssueAttachments">
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+      <End Role="tbl_Attachments" EntitySet="tbl_Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IssueComment" Association="Indian_Model.FK_IssueComment">
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+      <End Role="tbl_Comments" EntitySet="tbl_Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pin_Issue" Association="Indian_Model.FK_Pin_Issue">
+      <End Role="tbl_Place_Pin" EntitySet="tbl_Place_Pin" />
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+    </AssociationSet>
+    <AssociationSet Name="webpages_UsersInRoles" Association="Indian_Model.webpages_UsersInRoles">
+      <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+      <End Role="UserProfile" EntitySet="UserProfiles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tbl_Attachments">
+    <Key>
+      <PropertyRef Name="Attachment_Id" />
+    </Key>
+    <Property Name="Attachment_Id" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Filename" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Issues" Relationship="Indian_Model.FK_IssueAttachments" FromRole="tbl_Attachments" ToRole="tbl_Issues" />
+  </EntityType>
+  <EntityType Name="tbl_Comments">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="String" Nullable="false" MaxLength="12" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Issues" Relationship="Indian_Model.FK_IssueComment" FromRole="tbl_Comments" ToRole="tbl_Issues" />
+  </EntityType>
+  <EntityType Name="tbl_Issues">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="Subject" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="400" Unicode="true" FixedLength="false" />
+    <Property Name="IssueVisibility" Type="Boolean" />
+    <Property Name="CreatorVisibility" Type="Boolean" />
+    <Property Name="Category_ID" Type="Byte" />
+    <Property Name="CreatorID" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="Comment_ID" Type="String" MaxLength="12" Unicode="true" FixedLength="false" />
+    <Property Name="Creation_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PIN" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Attachments" Relationship="Indian_Model.FK_IssueAttachments" FromRole="tbl_Issues" ToRole="tbl_Attachments" />
+    <NavigationProperty Name="tbl_Comments" Relationship="Indian_Model.FK_IssueComment" FromRole="tbl_Issues" ToRole="tbl_Comments" />
+    <NavigationProperty Name="tbl_Place_Pin" Relationship="Indian_Model.FK_Pin_Issue" FromRole="tbl_Issues" ToRole="tbl_Place_Pin" />
+  </EntityType>
+  <EntityType Name="tbl_IssuesCountPerDays">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Count" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_Place_Pin">
+    <Key>
+      <PropertyRef Name="PIN" />
+    </Key>
+    <Property Name="PIN" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
+    <Property Name="Place_Name" Type="String" Nullable="false" MaxLength="36" Unicode="true" FixedLength="false" />
+    <Property Name="District" Type="String" MaxLength="36" Unicode="true" FixedLength="false" />
+    <Property Name="State" Type="String" MaxLength="36" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Issues" Relationship="Indian_Model.FK_Pin_Issue" FromRole="tbl_Place_Pin" ToRole="tbl_Issues" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="webpages_Roles" Relationship="Indian_Model.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+  </EntityType>
+  <EntityType Name="webpages_Membership">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="ConfirmationToken" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="IsConfirmed" Type="Boolean" />
+    <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+    <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="webpages_OAuthMembership">
+    <Key>
+      <PropertyRef Name="Provider" />
+      <PropertyRef Name="ProviderUserId" />
+    </Key>
+    <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="webpages_Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="UserProfiles" Relationship="Indian_Model.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
+  </EntityType>
+  <Association Name="FK_IssueAttachments">
+    <End Role="tbl_Issues" Type="Indian_Model.tbl_Issues" Multiplicity="1" />
+    <End Role="tbl_Attachments" Type="Indian_Model.tbl_Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="tbl_Attachments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IssueComment">
+    <End Role="tbl_Issues" Type="Indian_Model.tbl_Issues" Multiplicity="1" />
+    <End Role="tbl_Comments" Type="Indian_Model.tbl_Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="tbl_Comments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pin_Issue">
+    <End Role="tbl_Place_Pin" Type="Indian_Model.tbl_Place_Pin" Multiplicity="0..1" />
+    <End Role="tbl_Issues" Type="Indian_Model.tbl_Issues" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Place_Pin">
+        <PropertyRef Name="PIN" />
+      </Principal>
+      <Dependent Role="tbl_Issues">
+        <PropertyRef Name="PIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="webpages_UsersInRoles">
+    <End Role="webpages_Roles" Type="Indian_Model.webpages_Roles" Multiplicity="*" />
+    <End Role="UserProfile" Type="Indian_Model.UserProfile" Multiplicity="*" />
+  </Association>
+</Schema>

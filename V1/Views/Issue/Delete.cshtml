@@ -1,0 +1,89 @@
+﻿@model V1.STORAGE.entity_Issues
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>entity_Issues</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IssueId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IssueId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Subject)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Subject)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IssueVisibility)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IssueVisibility)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatorVisibility)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatorVisibility)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatorID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatorID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Comment_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Comment_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Creation_date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creation_date)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.entity_Place_Pin.Place_Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.entity_Place_Pin.Place_Name)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

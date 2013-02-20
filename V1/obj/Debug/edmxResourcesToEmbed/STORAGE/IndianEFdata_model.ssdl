@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Indian_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Indian_ModelStoreContainer">
+    <EntitySet Name="tbl_Attachments" EntityType="Indian_Model.Store.tbl_Attachments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tbl_Comments" EntityType="Indian_Model.Store.tbl_Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tbl_Issues" EntityType="Indian_Model.Store.tbl_Issues" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tbl_IssuesCountPerDays" EntityType="Indian_Model.Store.tbl_IssuesCountPerDays" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tbl_Place_Pin" EntityType="Indian_Model.Store.tbl_Place_Pin" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserProfile" EntityType="Indian_Model.Store.UserProfile" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_Membership" EntityType="Indian_Model.Store.webpages_Membership" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_OAuthMembership" EntityType="Indian_Model.Store.webpages_OAuthMembership" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_Roles" EntityType="Indian_Model.Store.webpages_Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_UsersInRoles" EntityType="Indian_Model.Store.webpages_UsersInRoles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_IssueAttachments" Association="Indian_Model.Store.FK_IssueAttachments">
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+      <End Role="tbl_Attachments" EntitySet="tbl_Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IssueComment" Association="Indian_Model.Store.FK_IssueComment">
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+      <End Role="tbl_Comments" EntitySet="tbl_Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pin_Issue" Association="Indian_Model.Store.FK_Pin_Issue">
+      <End Role="tbl_Place_Pin" EntitySet="tbl_Place_Pin" />
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+    </AssociationSet>
+    <AssociationSet Name="fk_RoleId" Association="Indian_Model.Store.fk_RoleId">
+      <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+      <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+    </AssociationSet>
+    <AssociationSet Name="fk_UserId" Association="Indian_Model.Store.fk_UserId">
+      <End Role="UserProfile" EntitySet="UserProfile" />
+      <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tbl_Attachments">
+    <Key>
+      <PropertyRef Name="Attachment_Id" />
+    </Key>
+    <Property Name="Attachment_Id" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Filename" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="tbl_Comments">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="nvarchar" Nullable="false" MaxLength="12" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="200" />
+    <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="tbl_Issues">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+    <Property Name="Subject" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="400" />
+    <Property Name="IssueVisibility" Type="bit" />
+    <Property Name="CreatorVisibility" Type="bit" />
+    <Property Name="Category_ID" Type="tinyint" />
+    <Property Name="CreatorID" Type="nvarchar" MaxLength="30" />
+    <Property Name="Comment_ID" Type="nvarchar" MaxLength="12" />
+    <Property Name="Creation_date" Type="datetime" Nullable="false" />
+    <Property Name="PIN" Type="nvarchar" MaxLength="8" />
+  </EntityType>
+  <EntityType Name="tbl_IssuesCountPerDays">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Count" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_Place_Pin">
+    <Key>
+      <PropertyRef Name="PIN" />
+    </Key>
+    <Property Name="PIN" Type="nvarchar" Nullable="false" MaxLength="8" />
+    <Property Name="Place_Name" Type="nvarchar" Nullable="false" MaxLength="36" />
+    <Property Name="District" Type="nvarchar" MaxLength="36" />
+    <Property Name="State" Type="nvarchar" MaxLength="36" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="webpages_Membership">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsConfirmed" Type="bit" />
+    <Property Name="LastPasswordFailureDate" Type="datetime" />
+    <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="PasswordChangedDate" Type="datetime" />
+    <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+    <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="webpages_OAuthMembership">
+    <Key>
+      <PropertyRef Name="Provider" />
+      <PropertyRef Name="ProviderUserId" />
+    </Key>
+    <Property Name="Provider" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="ProviderUserId" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="webpages_Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="webpages_UsersInRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_IssueAttachments">
+    <End Role="tbl_Issues" Type="Indian_Model.Store.tbl_Issues" Multiplicity="1" />
+    <End Role="tbl_Attachments" Type="Indian_Model.Store.tbl_Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="tbl_Attachments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IssueComment">
+    <End Role="tbl_Issues" Type="Indian_Model.Store.tbl_Issues" Multiplicity="1" />
+    <End Role="tbl_Comments" Type="Indian_Model.Store.tbl_Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="tbl_Comments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pin_Issue">
+    <End Role="tbl_Place_Pin" Type="Indian_Model.Store.tbl_Place_Pin" Multiplicity="0..1" />
+    <End Role="tbl_Issues" Type="Indian_Model.Store.tbl_Issues" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Place_Pin">
+        <PropertyRef Name="PIN" />
+      </Principal>
+      <Dependent Role="tbl_Issues">
+        <PropertyRef Name="PIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_RoleId">
+    <End Role="webpages_Roles" Type="Indian_Model.Store.webpages_Roles" Multiplicity="1" />
+    <End Role="webpages_UsersInRoles" Type="Indian_Model.Store.webpages_UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="webpages_Roles">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="webpages_UsersInRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_UserId">
+    <End Role="UserProfile" Type="Indian_Model.Store.UserProfile" Multiplicity="1" />
+    <End Role="webpages_UsersInRoles" Type="Indian_Model.Store.webpages_UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserProfile">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="webpages_UsersInRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

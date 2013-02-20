@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="STORAGE_Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="STORAGE_Conn" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_Attachments" EntityType="STORAGE_Model.tbl_Attachments" />
+    <EntitySet Name="tbl_Comments" EntityType="STORAGE_Model.tbl_Comments" />
+    <EntitySet Name="tbl_Issues" EntityType="STORAGE_Model.tbl_Issues" />
+    <EntitySet Name="tbl_IssuesCountPerDays" EntityType="STORAGE_Model.tbl_IssuesCountPerDays" />
+    <EntitySet Name="tbl_Place_Pin" EntityType="STORAGE_Model.tbl_Place_Pin" />
+    <AssociationSet Name="FK_IssueAttachments" Association="STORAGE_Model.FK_IssueAttachments">
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+      <End Role="tbl_Attachments" EntitySet="tbl_Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IssueComment" Association="STORAGE_Model.FK_IssueComment">
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+      <End Role="tbl_Comments" EntitySet="tbl_Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pin_Issue" Association="STORAGE_Model.FK_Pin_Issue">
+      <End Role="tbl_Place_Pin" EntitySet="tbl_Place_Pin" />
+      <End Role="tbl_Issues" EntitySet="tbl_Issues" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="tbl_Attachments">
+    <Key>
+      <PropertyRef Name="Attachment_Id" />
+    </Key>
+    <Property Name="Attachment_Id" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Filename" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Issues" Relationship="STORAGE_Model.FK_IssueAttachments" FromRole="tbl_Attachments" ToRole="tbl_Issues" />
+  </EntityType>
+  <EntityType Name="tbl_Comments">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Name="Comment_Id" Type="String" Nullable="false" MaxLength="12" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Issues" Relationship="STORAGE_Model.FK_IssueComment" FromRole="tbl_Comments" ToRole="tbl_Issues" />
+  </EntityType>
+  <EntityType Name="tbl_Issues">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+    <Property Name="Subject" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="400" Unicode="true" FixedLength="false" />
+    <Property Name="IssueVisibility" Type="Boolean" />
+    <Property Name="CreatorVisibility" Type="Boolean" />
+    <Property Name="Category_ID" Type="Byte" />
+    <Property Name="CreatorID" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+    <Property Name="Comment_ID" Type="String" MaxLength="12" Unicode="true" FixedLength="false" />
+    <Property Name="Creation_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PIN" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Attachments" Relationship="STORAGE_Model.FK_IssueAttachments" FromRole="tbl_Issues" ToRole="tbl_Attachments" />
+    <NavigationProperty Name="tbl_Comments" Relationship="STORAGE_Model.FK_IssueComment" FromRole="tbl_Issues" ToRole="tbl_Comments" />
+    <NavigationProperty Name="tbl_Place_Pin" Relationship="STORAGE_Model.FK_Pin_Issue" FromRole="tbl_Issues" ToRole="tbl_Place_Pin" />
+  </EntityType>
+  <EntityType Name="tbl_IssuesCountPerDays">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Count" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_Place_Pin">
+    <Key>
+      <PropertyRef Name="PIN" />
+    </Key>
+    <Property Name="PIN" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
+    <Property Name="Place_Name" Type="String" Nullable="false" MaxLength="36" Unicode="true" FixedLength="false" />
+    <Property Name="District" Type="String" MaxLength="36" Unicode="true" FixedLength="false" />
+    <Property Name="State" Type="String" MaxLength="36" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="tbl_Issues" Relationship="STORAGE_Model.FK_Pin_Issue" FromRole="tbl_Place_Pin" ToRole="tbl_Issues" />
+  </EntityType>
+  <Association Name="FK_IssueAttachments">
+    <End Role="tbl_Issues" Type="STORAGE_Model.tbl_Issues" Multiplicity="1" />
+    <End Role="tbl_Attachments" Type="STORAGE_Model.tbl_Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="tbl_Attachments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IssueComment">
+    <End Role="tbl_Issues" Type="STORAGE_Model.tbl_Issues" Multiplicity="1" />
+    <End Role="tbl_Comments" Type="STORAGE_Model.tbl_Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Issues">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="tbl_Comments">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pin_Issue">
+    <End Role="tbl_Place_Pin" Type="STORAGE_Model.tbl_Place_Pin" Multiplicity="0..1" />
+    <End Role="tbl_Issues" Type="STORAGE_Model.tbl_Issues" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Place_Pin">
+        <PropertyRef Name="PIN" />
+      </Principal>
+      <Dependent Role="tbl_Issues">
+        <PropertyRef Name="PIN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

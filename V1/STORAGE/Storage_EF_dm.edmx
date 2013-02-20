@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Storage_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="Storage_ModelStoreContainer">
+          <EntitySet Name="entity_Attachments" EntityType="Storage_Model.Store.entity_Attachments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="entity_Comments" EntityType="Storage_Model.Store.entity_Comments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="entity_Issues" EntityType="Storage_Model.Store.entity_Issues" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="entity_IssuesCountPerDays" EntityType="Storage_Model.Store.entity_IssuesCountPerDays" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="entity_Place_Pin" EntityType="Storage_Model.Store.entity_Place_Pin" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_IssueAttachments" Association="Storage_Model.Store.FK_IssueAttachments">
+            <End Role="entity_Issues" EntitySet="entity_Issues" />
+            <End Role="entity_Attachments" EntitySet="entity_Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComment" Association="Storage_Model.Store.FK_IssueComment">
+            <End Role="entity_Issues" EntitySet="entity_Issues" />
+            <End Role="entity_Comments" EntitySet="entity_Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pin_Issue" Association="Storage_Model.Store.FK_Pin_Issue">
+            <End Role="entity_Place_Pin" EntitySet="entity_Place_Pin" />
+            <End Role="entity_Issues" EntitySet="entity_Issues" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="entity_Attachments">
+          <Key>
+            <PropertyRef Name="Attachment_Id" />
+          </Key>
+          <Property Name="Attachment_Id" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Filename" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="entity_Comments">
+          <Key>
+            <PropertyRef Name="Comment_Id" />
+          </Key>
+          <Property Name="Comment_Id" Type="nvarchar" Nullable="false" MaxLength="12" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="200" />
+          <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="entity_Issues">
+          <Key>
+            <PropertyRef Name="IssueId" />
+          </Key>
+          <Property Name="IssueId" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="Subject" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="400" />
+          <Property Name="IssueVisibility" Type="bit" />
+          <Property Name="CreatorVisibility" Type="bit" />
+          <Property Name="Category_ID" Type="tinyint" />
+          <Property Name="CreatorID" Type="nvarchar" MaxLength="30" />
+          <Property Name="Comment_ID" Type="nvarchar" MaxLength="12" />
+          <Property Name="Creation_date" Type="datetime" Nullable="false" />
+          <Property Name="PIN" Type="nvarchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="entity_IssuesCountPerDays">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Count" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="entity_Place_Pin">
+          <Key>
+            <PropertyRef Name="PIN" />
+          </Key>
+          <Property Name="PIN" Type="nvarchar" Nullable="false" MaxLength="8" />
+          <Property Name="Place_Name" Type="nvarchar" Nullable="false" MaxLength="36" />
+          <Property Name="District" Type="nvarchar" MaxLength="36" />
+          <Property Name="State" Type="nvarchar" MaxLength="36" />
+        </EntityType>
+        <Association Name="FK_IssueAttachments">
+          <End Role="entity_Issues" Type="Storage_Model.Store.entity_Issues" Multiplicity="1" />
+          <End Role="entity_Attachments" Type="Storage_Model.Store.entity_Attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entity_Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="entity_Attachments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComment">
+          <End Role="entity_Issues" Type="Storage_Model.Store.entity_Issues" Multiplicity="1" />
+          <End Role="entity_Comments" Type="Storage_Model.Store.entity_Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entity_Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="entity_Comments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pin_Issue">
+          <End Role="entity_Place_Pin" Type="Storage_Model.Store.entity_Place_Pin" Multiplicity="0..1" />
+          <End Role="entity_Issues" Type="Storage_Model.Store.entity_Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entity_Place_Pin">
+              <PropertyRef Name="PIN" />
+            </Principal>
+            <Dependent Role="entity_Issues">
+              <PropertyRef Name="PIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Storage_Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="STORAGE_Con" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="entity_Attachments" EntityType="Storage_Model.entity_Attachments" />
+          <EntitySet Name="entity_Comments" EntityType="Storage_Model.entity_Comments" />
+          <EntitySet Name="entity_Issues" EntityType="Storage_Model.entity_Issues" />
+          <EntitySet Name="entity_IssuesCountPerDays" EntityType="Storage_Model.entity_IssuesCountPerDays" />
+          <EntitySet Name="entity_Place_Pin" EntityType="Storage_Model.entity_Place_Pin" />
+          <AssociationSet Name="FK_IssueAttachments" Association="Storage_Model.FK_IssueAttachments">
+            <End Role="entity_Issues" EntitySet="entity_Issues" />
+            <End Role="entity_Attachments" EntitySet="entity_Attachments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IssueComment" Association="Storage_Model.FK_IssueComment">
+            <End Role="entity_Issues" EntitySet="entity_Issues" />
+            <End Role="entity_Comments" EntitySet="entity_Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pin_Issue" Association="Storage_Model.FK_Pin_Issue">
+            <End Role="entity_Place_Pin" EntitySet="entity_Place_Pin" />
+            <End Role="entity_Issues" EntitySet="entity_Issues" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="entity_Attachments">
+          <Key>
+            <PropertyRef Name="Attachment_Id" />
+          </Key>
+          <Property Name="Attachment_Id" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="Filename" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="entity_Issues" Relationship="Storage_Model.FK_IssueAttachments" FromRole="entity_Attachments" ToRole="entity_Issues" />
+        </EntityType>
+        <EntityType Name="entity_Comments">
+          <Key>
+            <PropertyRef Name="Comment_Id" />
+          </Key>
+          <Property Name="Comment_Id" Type="String" Nullable="false" MaxLength="12" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="entity_Issues" Relationship="Storage_Model.FK_IssueComment" FromRole="entity_Comments" ToRole="entity_Issues" />
+        </EntityType>
+        <EntityType Name="entity_Issues">
+          <Key>
+            <PropertyRef Name="IssueId" />
+          </Key>
+          <Property Name="IssueId" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="400" Unicode="true" FixedLength="false" />
+          <Property Name="IssueVisibility" Type="Boolean" />
+          <Property Name="CreatorVisibility" Type="Boolean" />
+          <Property Name="Category_ID" Type="Byte" />
+          <Property Name="CreatorID" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="Comment_ID" Type="String" MaxLength="12" Unicode="true" FixedLength="false" />
+          <Property Name="Creation_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PIN" Type="String" MaxLength="8" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="entity_Attachments" Relationship="Storage_Model.FK_IssueAttachments" FromRole="entity_Issues" ToRole="entity_Attachments" />
+          <NavigationProperty Name="entity_Comments" Relationship="Storage_Model.FK_IssueComment" FromRole="entity_Issues" ToRole="entity_Comments" />
+          <NavigationProperty Name="entity_Place_Pin" Relationship="Storage_Model.FK_Pin_Issue" FromRole="entity_Issues" ToRole="entity_Place_Pin" />
+        </EntityType>
+        <EntityType Name="entity_IssuesCountPerDays">
+          <Key>
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Count" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="entity_Place_Pin">
+          <Key>
+            <PropertyRef Name="PIN" />
+          </Key>
+          <Property Name="PIN" Type="String" Nullable="false" MaxLength="8" Unicode="true" FixedLength="false" />
+          <Property Name="Place_Name" Type="String" Nullable="false" MaxLength="36" Unicode="true" FixedLength="false" />
+          <Property Name="District" Type="String" MaxLength="36" Unicode="true" FixedLength="false" />
+          <Property Name="State" Type="String" MaxLength="36" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="entity_Issues" Relationship="Storage_Model.FK_Pin_Issue" FromRole="entity_Place_Pin" ToRole="entity_Issues" />
+        </EntityType>
+        <Association Name="FK_IssueAttachments">
+          <End Role="entity_Issues" Type="Storage_Model.entity_Issues" Multiplicity="1" />
+          <End Role="entity_Attachments" Type="Storage_Model.entity_Attachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entity_Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="entity_Attachments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IssueComment">
+          <End Role="entity_Issues" Type="Storage_Model.entity_Issues" Multiplicity="1" />
+          <End Role="entity_Comments" Type="Storage_Model.entity_Comments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entity_Issues">
+              <PropertyRef Name="IssueId" />
+            </Principal>
+            <Dependent Role="entity_Comments">
+              <PropertyRef Name="IssueId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pin_Issue">
+          <End Role="entity_Place_Pin" Type="Storage_Model.entity_Place_Pin" Multiplicity="0..1" />
+          <End Role="entity_Issues" Type="Storage_Model.entity_Issues" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="entity_Place_Pin">
+              <PropertyRef Name="PIN" />
+            </Principal>
+            <Dependent Role="entity_Issues">
+              <PropertyRef Name="PIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Storage_ModelStoreContainer" CdmEntityContainer="STORAGE_Con">
+          <EntitySetMapping Name="entity_Attachments">
+            <EntityTypeMapping TypeName="Storage_Model.entity_Attachments">
+              <MappingFragment StoreEntitySet="entity_Attachments">
+                <ScalarProperty Name="Attachment_Id" ColumnName="Attachment_Id" />
+                <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="entity_Comments">
+            <EntityTypeMapping TypeName="Storage_Model.entity_Comments">
+              <MappingFragment StoreEntitySet="entity_Comments">
+                <ScalarProperty Name="Comment_Id" ColumnName="Comment_Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="entity_Issues">
+            <EntityTypeMapping TypeName="Storage_Model.entity_Issues">
+              <MappingFragment StoreEntitySet="entity_Issues">
+                <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IssueVisibility" ColumnName="IssueVisibility" />
+                <ScalarProperty Name="CreatorVisibility" ColumnName="CreatorVisibility" />
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="CreatorID" ColumnName="CreatorID" />
+                <ScalarProperty Name="Comment_ID" ColumnName="Comment_ID" />
+                <ScalarProperty Name="Creation_date" ColumnName="Creation_date" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="entity_IssuesCountPerDays">
+            <EntityTypeMapping TypeName="Storage_Model.entity_IssuesCountPerDays">
+              <MappingFragment StoreEntitySet="entity_IssuesCountPerDays">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="entity_Place_Pin">
+            <EntityTypeMapping TypeName="Storage_Model.entity_Place_Pin">
+              <MappingFragment StoreEntitySet="entity_Place_Pin">
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="Place_Name" ColumnName="Place_Name" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

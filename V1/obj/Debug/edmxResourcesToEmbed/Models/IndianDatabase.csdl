@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="IndianDatabase" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="IndianDatabaseContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Issues" EntityType="IndianDatabase.Issue" />
+    <EntitySet Name="Comments" EntityType="IndianDatabase.Comment" />
+    <EntitySet Name="Attachments" EntityType="IndianDatabase.Attachments" />
+    <EntitySet Name="IssuesCountPerDays" EntityType="IndianDatabase.IssuesCountPerDay" />
+    <EntitySet Name="Place_Pin" EntityType="IndianDatabase.Place_Pin" />
+    <AssociationSet Name="IssueComment" Association="IndianDatabase.IssueComment">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="IssueAttachments" Association="IndianDatabase.IssueAttachments">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Attachments" EntitySet="Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="IssuePlace_Pin" Association="IndianDatabase.IssuePlace_Pin">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Place_Pin" EntitySet="Place_Pin" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Issue">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Type="String" Name="IssueId" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Type="String" Name="Subject" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" />
+    <Property Type="Boolean" Name="IssueVisibility" Nullable="false" DefaultValue="True" />
+    <Property Type="Boolean" Name="CreatorVisibility" Nullable="false" DefaultValue="True" />
+    <Property Type="String" Name="Category_ID" Nullable="false" />
+    <Property Type="String" Name="CreatorID" Nullable="false" />
+    <Property Type="String" Name="Comment_ID" Nullable="false" />
+    <Property Type="DateTime" Name="Creation_date" Nullable="false" />
+    <NavigationProperty Name="Comments" Relationship="IndianDatabase.IssueComment" FromRole="Issue" ToRole="Comment" />
+    <NavigationProperty Name="Attachments" Relationship="IndianDatabase.IssueAttachments" FromRole="Issue" ToRole="Attachments" />
+    <NavigationProperty Name="Place_Pin" Relationship="IndianDatabase.IssuePlace_Pin" FromRole="Issue" ToRole="Place_Pin" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Type="String" Name="Comment_Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Type="String" Name="Description" Nullable="false" />
+    <Property Type="String" Name="IssueId" Nullable="false" />
+    <NavigationProperty Name="Issue" Relationship="IndianDatabase.IssueComment" FromRole="Comment" ToRole="Issue" />
+  </EntityType>
+  <EntityType Name="Attachments">
+    <Key>
+      <PropertyRef Name="Attachment_Id" />
+    </Key>
+    <Property Type="Int32" Name="Attachment_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Filename" Nullable="false" />
+    <Property Type="String" Name="IssueIssueId" Nullable="false" />
+    <NavigationProperty Name="Issue" Relationship="IndianDatabase.IssueAttachments" FromRole="Attachments" ToRole="Issue" />
+  </EntityType>
+  <EntityType Name="IssuesCountPerDay">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Type="DateTime" Name="Date" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Type="Double" Name="Count" Nullable="false" DefaultValue="1" />
+  </EntityType>
+  <EntityType Name="Place_Pin">
+    <Key>
+      <PropertyRef Name="PIN" />
+    </Key>
+    <Property Type="Int16" Name="PIN" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Place_Name" Nullable="false" />
+    <Property Type="String" Name="District" Nullable="false" />
+    <Property Type="String" Name="State" Nullable="false" />
+    <NavigationProperty Name="Issues" Relationship="IndianDatabase.IssuePlace_Pin" FromRole="Place_Pin" ToRole="Issue" />
+  </EntityType>
+  <Association Name="IssueComment">
+    <End Type="IndianDatabase.Issue" Role="Issue" Multiplicity="1" />
+    <End Type="IndianDatabase.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="IssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IssueAttachments">
+    <End Type="IndianDatabase.Issue" Role="Issue" Multiplicity="1" />
+    <End Type="IndianDatabase.Attachments" Role="Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Attachments">
+        <PropertyRef Name="IssueIssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IssuePlace_Pin">
+    <End Type="IndianDatabase.Issue" Role="Issue" Multiplicity="*" />
+    <End Type="IndianDatabase.Place_Pin" Role="Place_Pin" Multiplicity="*" />
+  </Association>
+</Schema>

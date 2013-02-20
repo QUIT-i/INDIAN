@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="STORE" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="STOREContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Issues" EntityType="STORE.Issue" />
+  </EntityContainer>
+  <EntityType Name="Issue">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Type="String" Name="IssueId" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Type="String" Name="Subject" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" />
+    <Property Type="Boolean" Name="IssueVisibility" Nullable="false" DefaultValue="True" />
+    <Property Type="Boolean" Name="CreatorVisibility" Nullable="false" DefaultValue="True" />
+    <Property Type="String" Name="Category_ID" Nullable="false" />
+    <Property Type="String" Name="CreatorID" Nullable="false" />
+    <Property Type="String" Name="Comment_ID" Nullable="false" />
+    <Property Type="DateTime" Name="Creation_date" Nullable="false" />
+  </EntityType>
+</Schema>

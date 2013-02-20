@@ -1,0 +1,88 @@
+﻿@model IEnumerable<V1.STORAGE.entity_Issues>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IssueId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IssueVisibility)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatorVisibility)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatorID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Creation_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.entity_Place_Pin.Place_Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssueId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssueVisibility)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatorVisibility)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatorID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creation_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.entity_Place_Pin.Place_Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

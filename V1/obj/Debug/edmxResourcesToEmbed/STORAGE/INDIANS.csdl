@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="INDIANS" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="INDIANSContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Issues" EntityType="INDIANS.Issue" />
+    <EntitySet Name="Comments" EntityType="INDIANS.Comment" />
+    <AssociationSet Name="IssueComment" Association="INDIANS.IssueComment">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <EntitySet Name="IssuesCountPerDays" EntityType="INDIANS.IssuesCountPerDay" />
+    <EntitySet Name="Attachments" EntityType="INDIANS.Attachments" />
+    <EntitySet Name="Place_Pin" EntityType="INDIANS.Place_Pin" />
+    <AssociationSet Name="IssueAttachments" Association="INDIANS.IssueAttachments">
+      <End Role="Issue" EntitySet="Issues" />
+      <End Role="Attachments" EntitySet="Attachments" />
+    </AssociationSet>
+    <AssociationSet Name="Place_PinIssue" Association="INDIANS.Place_PinIssue">
+      <End Role="Place_Pin" EntitySet="Place_Pin" />
+      <End Role="Issue" EntitySet="Issues" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Issue">
+    <Key>
+      <PropertyRef Name="IssueId" />
+    </Key>
+    <Property Type="Int32" Name="IssueId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Subject" Nullable="false" />
+    <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" />
+    <Property Type="Boolean" Name="IssueVisibility" Nullable="false" DefaultValue="True" />
+    <Property Type="Boolean" Name="CreatorVisibility" Nullable="false" DefaultValue="True" />
+    <Property Type="String" Name="Category_ID" Nullable="false" />
+    <Property Type="String" Name="CreatorID" Nullable="false" />
+    <Property Type="String" Name="Comment_ID" Nullable="false" />
+    <Property Type="DateTime" Name="Creation_date" Nullable="false" />
+    <NavigationProperty Name="Comments" Relationship="INDIANS.IssueComment" FromRole="Issue" ToRole="Comment" />
+    <NavigationProperty Name="Attachments" Relationship="INDIANS.IssueAttachments" FromRole="Issue" ToRole="Attachments" />
+    <NavigationProperty Name="Place_Pin" Relationship="INDIANS.Place_PinIssue" FromRole="Issue" ToRole="Place_Pin" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Comment_Id" />
+    </Key>
+    <Property Type="String" Name="Comment_Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Type="String" Name="Description" Nullable="false" />
+    <Property Type="String" Name="IssueId" Nullable="false" />
+    <NavigationProperty Name="Issue" Relationship="INDIANS.IssueComment" FromRole="Comment" ToRole="Issue" />
+    <Property Type="Int32" Name="IssueIssueId" Nullable="false" />
+  </EntityType>
+  <Association Name="IssueComment">
+    <End Type="INDIANS.Issue" Role="Issue" Multiplicity="1" />
+    <End Type="INDIANS.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="IssueIssueId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="IssuesCountPerDay">
+    <Key>
+      <PropertyRef Name="Date" />
+    </Key>
+    <Property Type="DateTime" Name="Date" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Type="Double" Name="Count" Nullable="false" DefaultValue="1" />
+  </EntityType>
+  <EntityType Name="Attachments">
+    <Key>
+      <PropertyRef Name="Attachment_Id" />
+    </Key>
+    <Property Type="Int32" Name="Attachment_Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Filename" Nullable="false" />
+    <Property Type="String" Name="IssueIssueId" Nullable="false" />
+    <NavigationProperty Name="Issue" Relationship="INDIANS.IssueAttachments" FromRole="Attachments" ToRole="Issue" />
+    <Property Type="Int32" Name="IssueIssueId1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Place_Pin">
+    <Key>
+      <PropertyRef Name="PIN" />
+    </Key>
+    <Property Type="Int16" Name="PIN" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Place_Name" Nullable="false" />
+    <Property Type="String" Name="District" Nullable="false" />
+    <Property Type="String" Name="State" Nullable="false" />
+    <NavigationProperty Name="Issues" Relationship="INDIANS.Place_PinIssue" FromRole="Place_Pin" ToRole="Issue" />
+  </EntityType>
+  <Association Name="IssueAttachments">
+    <End Type="INDIANS.Issue" Role="Issue" Multiplicity="1" />
+    <End Type="INDIANS.Attachments" Role="Attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Issue">
+        <PropertyRef Name="IssueId" />
+      </Principal>
+      <Dependent Role="Attachments">
+        <PropertyRef Name="IssueIssueId1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Place_PinIssue">
+    <End Type="INDIANS.Place_Pin" Role="Place_Pin" Multiplicity="*" />
+    <End Type="INDIANS.Issue" Role="Issue" Multiplicity="*" />
+  </Association>
+</Schema>

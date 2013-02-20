@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="STORAGE_ModelStoreContainer" CdmEntityContainer="STORAGE_Conn">
+    <EntitySetMapping Name="tbl_Attachments">
+      <EntityTypeMapping TypeName="STORAGE_Model.tbl_Attachments">
+        <MappingFragment StoreEntitySet="tbl_Attachments">
+          <ScalarProperty Name="Attachment_Id" ColumnName="Attachment_Id" />
+          <ScalarProperty Name="Filename" ColumnName="Filename" />
+          <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Comments">
+      <EntityTypeMapping TypeName="STORAGE_Model.tbl_Comments">
+        <MappingFragment StoreEntitySet="tbl_Comments">
+          <ScalarProperty Name="Comment_Id" ColumnName="Comment_Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Issues">
+      <EntityTypeMapping TypeName="STORAGE_Model.tbl_Issues">
+        <MappingFragment StoreEntitySet="tbl_Issues">
+          <ScalarProperty Name="IssueId" ColumnName="IssueId" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="IssueVisibility" ColumnName="IssueVisibility" />
+          <ScalarProperty Name="CreatorVisibility" ColumnName="CreatorVisibility" />
+          <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+          <ScalarProperty Name="CreatorID" ColumnName="CreatorID" />
+          <ScalarProperty Name="Comment_ID" ColumnName="Comment_ID" />
+          <ScalarProperty Name="Creation_date" ColumnName="Creation_date" />
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_IssuesCountPerDays">
+      <EntityTypeMapping TypeName="STORAGE_Model.tbl_IssuesCountPerDays">
+        <MappingFragment StoreEntitySet="tbl_IssuesCountPerDays">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tbl_Place_Pin">
+      <EntityTypeMapping TypeName="STORAGE_Model.tbl_Place_Pin">
+        <MappingFragment StoreEntitySet="tbl_Place_Pin">
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+          <ScalarProperty Name="Place_Name" ColumnName="Place_Name" />
+          <ScalarProperty Name="District" ColumnName="District" />
+          <ScalarProperty Name="State" ColumnName="State" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,86 @@
+﻿@model V1.STORAGE.entity_Issues
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>entity_Issues</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IssueId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IssueId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Subject)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Subject)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IssueVisibility)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IssueVisibility)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatorVisibility)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatorVisibility)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Category_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Category_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreatorID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatorID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Comment_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Comment_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Creation_date)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Creation_date)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.entity_Place_Pin.Place_Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.entity_Place_Pin.Place_Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
